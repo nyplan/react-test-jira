@@ -1,23 +1,27 @@
 import { useState } from 'react';
 import TaskCreate from './TaskCreate';
+import { useContext } from 'react';
+import TasksContext from "../context/Task";
 
-function TaskShow({ task, onDelete, onUpdate }) {
+function TaskShow({ task }) {
+  const { editTaskById, deleteTaskById } = useContext(TasksContext);
+
   const [showEdit, setShowEdit] = useState(false);
   const handleDeleteClick = () => {
-    onDelete(task.id);
+    deleteTaskById(task.id);
   };
   const handleEditClick = () => {
     setShowEdit(!showEdit);
   };
   const handleSubmit = (id, updatedTitle, updatedTaskDesc) => {
     setShowEdit(false);
-    onUpdate(id, updatedTitle, updatedTaskDesc);
+    editTaskById(task.id, updatedTitle, updatedTaskDesc)
   };
 
   return (
     <div className="task-show">
       {showEdit ? (
-        <TaskCreate task={task} taskformUpdate={true} onUpdate={handleSubmit} />
+        <TaskCreate task={task} taskformUpdate={true} onUpdate={handleSubmit}/>
       ) : (
         <div>
           <h3 className="task-title">Göreviniz</h3>
